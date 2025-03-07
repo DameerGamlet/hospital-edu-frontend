@@ -1,7 +1,31 @@
-import React from "react";
-import { clinics } from "@data/clinics";
+// src/components/ClinicsList.tsx
+import { Clinic } from "@data/types/clinic";
+import clinicService from "@services/clinic/clinicService";
+import React, { useEffect, useState } from "react";
 
 const ClinicsList: React.FC = () => {
+  const [clinics, setClinics] = useState<Clinic[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchClinics = async () => {
+      try {
+        const data = await clinicService.getClinics();
+        setClinics(data);
+      } catch (error) {
+        console.error("Ошибка при загрузке поликлиник:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchClinics();
+  }, []);
+
+  if (loading) {
+    return <div>Загрузка...</div>;
+  }
+
   return (
     <div className="container py-6">
       <h1 className="text-center text-4xl font-bold mb-6">Наши поликлиники</h1>
@@ -17,7 +41,9 @@ const ClinicsList: React.FC = () => {
               <h2 className="text-xl font-semibold mb-2">{clinic.name}</h2>
               <p className="text-gray-700 mb-4">{clinic.description}</p>
               <div className="flex flex-col items-center">
-                <p className="text-sm text-gray-500 mb-2">{clinic.address}</p>
+                <p className="text-sm text-gray-500 mb-2">
+                  {clinic.city} {clinic.street}
+                </p>
                 <a
                   href={clinic.mapLink}
                   target="_blank"

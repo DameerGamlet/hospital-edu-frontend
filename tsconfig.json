@@ -8,7 +8,9 @@
       "@components/*": ["./components/*"],
       "@pages/*": ["./pages/*"],
       "@data/*": ["./data/*"],
+      "@services/*": ["./services/*"],
       "@utils/*": ["./utils/*"]
-    }
+    },
+    "resolveJsonModule": true
   }
 }
