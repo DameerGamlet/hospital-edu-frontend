@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ role: string }> = ({ role }) => {
   return (
     <nav className="bg-blue-500 p-3">
-      <div className="container mx-auto flex justify-between items-center">
+      <div className="px-5 flex justify-between items-center">
         <Link className="text-white flex items-center" to="/">
           <img
             src="/logo.svg"
@@ -29,14 +29,22 @@ const Navbar: React.FC = () => {
           <Link className="text-white hover:text-gray-300" to="/appointments">
             Записаться
           </Link>
-          <span className="text-white">|</span>
-          <Link className="text-white hover:text-gray-300" to="/my-records">
-            Мои записи
-          </Link>
-          <span className="text-white">|</span>
-          <Link className="text-white hover:text-gray-300" to="/account">
-            Мой аккаунт
-          </Link>
+          {role === "user" && (
+            <>
+              <span className="text-white">|</span>
+              <Link className="text-white hover:text-gray-300" to="/my-records">
+                Мои записи
+              </Link>
+            </>
+          )}
+          {role !== "guest" && (
+            <>
+              <span className="text-white">|</span>
+              <Link className="text-white hover:text-gray-300" to="/account">
+                Мой аккаунт
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </nav>
